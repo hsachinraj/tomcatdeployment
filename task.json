@@ -1,0 +1,86 @@
+{
+  "id": "a4431d90-ca04-11e5-b9c9-7778c3caa0aa",
+  "name": "TomcatDeployer",
+  "friendlyName": "Tomcat xPlat Deployment",
+  "description": "A task to deploy WAR files on Tomcat Server on Windows and Linux",
+  "author": "Sachin",
+  "helpMarkDown": "Replace with markdown to show in help",
+  "category": "Deploy",
+  "visibility": [
+    "Build",
+    "Release"
+  ],
+  "demands": ["curl"],
+  "version": {
+    "Major": "0",
+    "Minor": "5",
+    "Patch": "0"
+  },
+  "minimumAgentVersion": "1.83.0",
+  "instanceNameFormat": "tomcatxplat $(message)",
+      "inputs": [
+        {
+            "name": "tomcatUrl",
+            "type": "string",
+            "label": "Tomcat Server URL",
+            "defaultValue": "http://localhost:8080",
+            "required": true,
+            "helpMarkDown": "Specify the Tomcat server url which should contain the procotol, host and port details. Example- https://test.azure.cloudapp.net:8080"
+        },		
+        {
+            "name": "userName",
+            "type": "string",
+            "label": "Tomcat Manager Username",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Specify the user name to connect to the Tomcat manager. Tomcat manager should be running on the server."
+        },
+        {
+            "name": "password",
+            "type": "string",
+            "label": "Password",
+            "defaultValue": "",
+            "required": true,
+			"helpMarkDown": "Specify the password to connect to the Tomcat manager. Tomcat manager should be running on the server."
+        },
+        {
+            "name": "warFile",
+            "type": "filePath",
+            "label": "WAR File",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Absolute path of the war file present on the agent machine, or a UNC Share. Example- C:\\Agent\\Binaries\\Demo.war Or $(warFilePath)."
+        },
+        {
+            "name": "context",
+            "type": "string",
+            "label": "Application Context",
+            "defaultValue": "/",
+            "required": true,
+            "helpMarkDown": "Specify the application context path. Example- /Production"
+        },
+        {
+            "name": "serverVersion",
+            "type": "radio",
+            "label": "Tomcat Server Version",
+            "defaultValue": "7OrAbove",
+            "required": true,
+			"options": {
+			     "6.x": "6.x",
+				 "7OrAbove" : "7 or above"
+			},
+            "helpMarkDown": "Specify tomcat server version."
+        }
+    ],
+  "execution": {
+    "Node": {
+      "target": "tomcatdeploy.js",
+      "argumentFormat": ""
+    },
+    "PowerShell": {
+      "target": "$(currentDirectory)\\tomcatdeploy.ps1",
+      "argumentFormat": "",
+      "workingDirectory": "$(currentDirectory)"
+    }
+  }
+}
